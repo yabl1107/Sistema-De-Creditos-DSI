@@ -1,0 +1,161 @@
+﻿
+
+
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accordion</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/css/login4.css" rel="stylesheet" />
+</head>
+
+<body style="background-color: rgb(15,71,151);" >
+    <main  class="vh-100 d-flex align-items-center" >
+        <!-- El contenedor de la categorias -->
+        <section id="principal" class="h-75 container-sm mx-auto" style="max-width: 800px; background-color: rgb(15,71,151);">
+
+            <div class="mb-2 mb-sm-5">
+                <!--Botones-->
+                <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item mb-1">
+                        <a class="nav-link text-white" href="@Url.Action("Login", "Acceso")">Login</a>
+                    </li>
+                    <li class="nav-item mb-1">
+                        <a class="nav-link text-white" href="@Url.Action("Registrar", "Acceso")">Registrar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="@Url.Action("About", "Acceso")">Acerca de</a>
+                    </li>
+                </ul>
+            </div>
+
+            <h1 class="fs-5 text-primary text-center py-3 text-white">¿En qué le podemos ayudar?</h1>
+
+            <!-- La primera categoria -->
+            <div class="accordion" id="accordionExample">
+
+
+                <div style="background-color: rgb(15,71,151);"  class="accordion-item my-4">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button style="background-color: rgb(13,110,253);"   class="accordion-button"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <div></div>
+                            <span class="px-3 text-white">Envios</span>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body text-white">
+                            <h2 class="fs-6 fw-semibold">1. ¿Dónde está mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">2. ¿Cúando llegará mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">3. ¿Qué hacer si no llega mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">4. ¿Cómo sigo el envio?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">5. ¿Cúanto tiempo se demora el envio?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- La segunda Categoria  -->
+
+                <div style="background-color: rgb(15,71,151);" class="accordion-item my-4">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button  style="background-color: rgb(13,110,253);"   class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="bi bi-credit-card"></i>
+                            <span class="px-3 text-white">Pagos</span>
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body text-white">
+                            <h2 class="fs-6 fw-semibold">1. ¿Dónde está mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">2. ¿Cúando llegará mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">3. ¿Qué hacer si no llega mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">4. ¿Cómo sigo el envio?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">5. ¿Cúanto tiempo se demora el envio?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- La tercera categoria  -->
+
+                <div style="background-color: rgb(15,71,151);" class="accordion-item my-4">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button style="background-color: rgb(13,110,253);"   class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+
+                            <i class="bi bi-arrow-return-left"></i>
+                            <span class="px-3 text-white">Devoluciones</span>
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body text-white">
+                            <h2 class="fs-6 fw-semibold">1. ¿Dónde está mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">2. ¿Cúando llegará mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">3. ¿Qué hacer si no llega mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">4. ¿Cómo sigo el envio?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">5. ¿Cúanto tiempo se demora el envio?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- La cuarta categoria  -->
+
+                <div style="background-color: rgb(15,71,151);" class="accordion-item">
+                    <h2 class="accordion-header" id="heading4">
+                        <button style="background-color: rgb(13,110,253);"   class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                            <i class="bi bi-percent"></i>
+                            <span class="px-3 text-white">Promociones</span>
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
+                        <div class="accordion-body text-white">
+                            <h2 class="fs-6 fw-semibold">1. ¿Dónde está mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">2. ¿Cúando llegará mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">3. ¿Qué hacer si no llega mi pedido?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">4. ¿Cómo sigo el envio?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                            <h2 class="fs-6 fw-semibold">5. ¿Cúanto tiempo se demora el envio?</h2>
+                            <div class="my-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa, odit.</div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+        </section>
+
+    </main>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+
+</html>

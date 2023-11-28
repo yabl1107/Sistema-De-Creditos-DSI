@@ -1,0 +1,104 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="~/Content/css/login4.css" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+
+</head>
+<body>
+
+    <main>
+
+
+        <div class="main">
+
+            <div id="login" class="container d-flex justify-content-center align-items-center">
+
+
+                <div>
+
+                    <div class="mb-2 mb-sm-5">
+                        <!--Botones-->
+                        <ul class="nav nav-pills nav-fill">
+                            <li class="nav-item mb-1">
+                                <a class="nav-link active" aria-current="page" href="@Url.Action("IniciarSesion", "Acceso")">Iniciar Sesión</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <div class="d-flex flex-row ">
+                        <!--Login-->
+
+                        <div class="left-box">
+                            <form action="@Url.Action("IniciarSesion","Acceso")" method="post">
+
+                                <div class="d-flex flex-row">
+                                    <div><span class="fa fa-envelope"> </span></div>
+                                    <input type="text" name="correo" Placeholder="correo" required>
+                                </div>
+
+
+                                <div class="d-flex flex-row">
+                                    <div><span class="fa fa-lock"></span></div>
+                                    <input type="password" name="clave" Placeholder="Password" required>
+                                </div>
+
+                                <span style="width:48%; text-align:left;  display: inline-block;">
+                                    <a class="small-text" href="#">
+                                        Forgot password?
+                                    </a>
+                                </span>
+                                <span style="width:50%; text-align:right;  display: inline-block;"><input type="submit" value="Sign In"></span>
+
+                            </form>
+                        </div> <!-- end left-box -->
+
+                        <div class="d-none d-md-block right-box">
+                            <div class="logo inside-righ-box">
+                                Vehicle Financing Company
+                            </div>
+                        </div> <!-- end right-box -->
+                    </div>
+
+                    @if (ViewData["Mensaje"] != null)
+                    {
+                        <div class="alert alert-danger my-5" role="alert">
+                            @ViewData["Mensaje"]
+                        </div>
+                    }
+
+                    <footer class="text-center  mt-5">
+                        <!--Fecha-->
+                        <p class="fs-5 py-0 my-0 text-black-50">&copy; @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</p>
+                        <p class="fs-5 py-0 my-0 text-black-50">Lima, Perú</p>
+                    </footer>
+
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+</body>
+
+</html>

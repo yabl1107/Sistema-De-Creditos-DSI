@@ -1,0 +1,226 @@
+﻿@{
+    ViewBag.Title = "Clientes";
+}
+
+<ol class="breadcrumb mb-4 pt-4">
+    <li class="breadcrumb-item"><a href="index.html">Administrar</a></li>
+    <li class="breadcrumb-item active">Clientes</li>
+</ol>
+
+<div class="card">
+
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i>Lista de Clientes
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <!--
+               <div class="col-12">
+                <button type="button" class="btn btn-outline-success" onclick="abrirModal()">Crear Trabajador</button>
+
+            </div>
+        -->
+
+        </div>
+        <hr />
+        <table id="tabla" class="display cell-border" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>DNI</th>
+                    <th>F.Nac</th>
+                    <th>Correo</th>
+                    <th>Telefono</th>
+                    <th>Sexo</th>
+                    <!--<th>Ver Cliente</th>-->
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLongTitle">Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body g-2">
+
+                <div class="row">
+
+                    <div id="miDiv" class="col-sm-6 alig">
+                        <label for="txtId" class="form-label">Id Usuario</label>
+                        <input type="text" class="form-control" id="txtId" value="0">
+                    </div>
+                    <div class="col-sm-6"></div>
+
+
+                    <div class="col-sm-6">
+                        <label for="txtnombres" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="txtnombres">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="txtDNI" class="form-label">DNI</label>
+                        <input type="text" class="form-control" id="txtDNI">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="txtapellidos" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="txtapellidos">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="txtcorreo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="txtcorreo" placeholder="MiCorreo@gmail.com">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="exampleFormControlInput1" class="form-label">Sexo</label>
+                        <select id="sexo" class="form-select" aria-label="Default select example">
+                            <option value="1">Hombre</option>
+                            <option value="2">Mujer</option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Los scripts que escribamos los va a tomar la masterpage como si fuera suyo-->
+@section scripts{
+
+    <script>
+        var tabladata;
+        var CrearModal = true; // Saber si se abre crear o editar usuario
+        var filaSeleccionada;
+
+        tabladata = $("#tabla").DataTable({
+            responsive: true,
+            ordering : false,
+            "ajax": {
+                url: '@Url.Action("ListarClientes", "Home")',
+                type: "GET",
+                dataType: "json",
+            },
+
+            "columns": [
+                { "data": "idCliente" },
+                { "data": "Nombre" },
+                { "data": "Apellidos" },
+                { "data": "DNI" },
+                { "data": "FechaNacimiento" },
+                { "data": "Correo" },
+                { "data": "Telefono" },
+                { "data": "Sexo" },
+                /*{
+                    "data": "idCliente", "render": function (valor) {
+                        if (valor > 1) {
+                            //return '<button type="button" class="btn btn-info">Info</button>'
+                            return 'mayor 1'
+                        } else {
+                            return 'menor 1'
+                        }
+                    }
+                },*/
+                /*
+                {
+                    "defaultContent": '<div class="d-flex justify-content-center"><button type="button" class="btn btn-info"> <i class="fas fa-eye"></i> </button> <button type="button" class="btn btn-warning ms-1 btn-editar"> <i class="fas fa-pencil-alt"></i> </button> </div>',
+                    "orderable": false,
+                    "searchable": false,
+                    "widht":"90px"
+                }*/
+            ],
+            "language": {
+                "url": 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+            },
+        });
+        /*
+        function abrirModal(json) {
+
+            $("#txtnombres").val("");
+            $("#txtapellidos").val("");
+            $("#txtDNI").val("");
+            $("#txtcorreo").val("");
+
+            if (json != null) { //Mostrar Id pero que no se pueda editar
+                $("#txtnombres").val(json.Nombre);
+                $("#txtapellidos").val(json.Apellido);
+                $("#txtDNI").val(json.dni);
+                $("#txtcorreo").val(json.Correo);
+                $("#txtId").val(json.idCliente);
+
+                CrearModal = false;
+            } else {
+                CrearModal = true;
+            }
+
+            var miDiv = document.getElementById('miDiv');
+            var txtId = miDiv.querySelector('#txtId');
+
+            if (CrearModal) { //Opcion crear
+                //txtId.readOnly = false;
+                txtId.disabled = false;
+            } else { //Opcion editar
+                //txtId.readOnly = true;
+                txtId.disabled = true;
+            }
+
+            $("#FormModal").modal("show");
+
+
+        }
+
+        $("#tabla tbody").on("click", '.btn-editar', function () {
+            filaSeleccionada = $(this).closest("tr");
+            var data = tabladata.row(filaSeleccionada).data();
+            console.log(data);
+            abrirModal(data)
+        })
+
+
+        function Guardar() {
+
+            var Usuario = {
+                idCliente: $("#txtId").val(),
+                Apellido: $("#txtapellidos").val(),
+                Correo: $("#txtcorreo").val(),
+                Nombre: $("#txtnombres").val(),
+                dni: $("#txtDNI").val()
+            }
+
+            if (CrearModal) {
+                tabladata.row.add(Usuario).draw(false);
+            }
+            else {
+                tabladata.row(filaSeleccionada).data(Usuario).draw(false);
+            }
+
+            $("#FormModal").modal("hide");
+        } */
+
+    </script>
+
+}

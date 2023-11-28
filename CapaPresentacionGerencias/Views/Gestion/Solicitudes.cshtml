@@ -1,0 +1,386 @@
+﻿
+@using CapaEntidad
+@{
+    ViewBag.Title = "Trabajadores";
+    Empleado oEmpleado = (Empleado)Session["Empleado"];
+}
+
+<ol class="breadcrumb mb-4 pt-4">
+    <li class="breadcrumb-item"><a href="index.html">Creditos</a></li>
+    <li class="breadcrumb-item active">Ver Solicitudes</li>
+</ol>
+
+<div class="text-white rounded-4 py-2 mb-4" style="background-color: rgb(64,139,253);">
+    <h6  class="fw-bold text-center my-2" style="font-family: sans-serif;">Solicitudes Pendientes</h6>
+</div>
+<div class="card">
+
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i>Solicitudes
+    </div>
+
+    <div id="cardSolicitudesPendientes" class="card-body">
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Interes</span>
+            </div>
+            <input type="text" class="form-control" id="Interes" aria-describedby="basic-addon3">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">P. Gracia - Meses</span>
+            </div>
+            <input type="text" class="form-control" id="Gracia" aria-describedby="basic-addon3" oninput="validarNumeros(this)">
+        </div>
+
+        <hr />
+        <table id="tablaPendientes" class="display cell-border" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Botones</th>
+                    <th>IdSolicitud</th>
+                    <th>idCliente</th>
+                    <th>idEmpleado</th>
+                    <th>TipoMoneda</th>
+                    <th>Estado</th>
+                    <th>Situacion</th>
+                    <th>Monto</th>
+                    <th>CantidadCuotas</th>
+                    <th>FechaSolicitud</th>
+                    <th>FechaDesembolso</th>
+                    <th>Seq</th>
+                    <th>IngresosMensuales</th>
+                    <th>GastosMensuales</th>
+                    <th>EstadoCivil</th>
+                    <th>Educacion</th>
+                    <th>#PersonasDep</th>
+                    <th>Empleador</th>
+                    <th>PuestoTrabajo</th>
+                    <th>Antiguedad(meses)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<br />
+<br />
+<div class=" text-white rounded-4 py-2 mb-4" style="background-color: rgb(64,139,253);">
+    <h6 id="TituloCard" class="fw-bold text-center my-2" style="font-family: sans-serif;">Total de solicitudes (Gerencia)</h6>
+</div>
+
+
+<!--  *****************************************************  -->
+<div id="cardSolicitudesAtendidas" class="card">
+
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i>Solicitudes
+    </div>
+
+    <div class="card-body">
+
+        <hr />
+        <table id="tabla" class="display cell-border" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>IdSolicitud</th>
+                    <th>idCliente</th>
+                    <th>idEmpleado</th>
+                    <th>TipoMoneda</th>
+                    <th>Estado</th>
+                    <th>Situacion</th>
+                    <th>Monto</th>
+                    <th>CantidadCuotas</th>
+                    <th>FechaSolicitud</th>
+                    <th>FechaDesembolso</th>
+                    <th>Seq</th>
+                    <th>IngresosMensuales</th>
+                    <th>GastosMensuales</th>
+                    <th>EstadoCivil</th>
+                    <th>Educacion</th>
+                    <th>#PersonasDep</th>
+                    <th>Empleador</th>
+                    <th>PuestoTrabajo</th>
+                    <th>Antiguedad(meses)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<!--Los scripts que escribamos los va a tomar la masterpage como si fuera suyo-->
+@section scripts{
+
+    <script>
+        var tabladata;
+        var tabladataPendientes;
+        var CrearModal = true; // Saber si se abre crear o editar usuario
+        var filaSeleccionada;
+
+        var GetSolicitudesAtendidas = '';
+
+        if (@oEmpleado.Gerencia== 1) {
+            GetSolicitudesAtendidas = '/hOME/ListarSolicitudesAtendidas';
+        } else {
+            GetSolicitudesAtendidas = '/hOME/ListarSolicitudesDeTrabajadorEnSesion'
+            $('#TituloCard').text('Mis Atenciones -  ID empleado: '+@oEmpleado.IDempleado);
+        };
+
+
+
+        tabladata = $("#tabla").DataTable({
+            responsive: true,
+            ordering : false,
+            "ajax": {
+                url: GetSolicitudesAtendidas,
+                type: "GET",
+                dataType: "json",
+            },
+
+            "columns": [
+                { "data": "idSolicitud" },
+                { "data": "idCliente" },
+                { "data": "idEmpleado" },
+                { "data": "TipoMoneda" },
+                { "data": "Estado" },
+                { "data": "Situacion" },
+                { "data": "Monto" },
+                { "data": "CantidadCuotas" },
+                { "data": "FechaSolicitud" },
+                { "data": "FechaDesembolso" },
+                { "data": "Seq" },
+                { "data": "IngresosMensuales" },
+                { "data": "GastosMensuales" },
+                { "data": "EstadoCivil" },
+                { "data": "Educacion" },
+                { "data": "PersonasDependientes" },
+                { "data": "Empleador" },
+                { "data": "PuestoTrabajo" },
+                { "data": "Antiguedad" },
+            ],
+            "language": {
+                "url": 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+            }
+        });
+
+        tabladataPendientes = $("#tablaPendientes").DataTable({
+            responsive: true,
+            ordering : false,
+            "ajax": {
+                url: '@Url.Action("ListarSolicitudesPendientes", "Home")',
+                type: "GET",
+                dataType: "json",
+            },
+
+            "columns": [
+                {
+                    "defaultContent": '<div class="d-flex justify-content-center"><button type="button" class="btn btn-aceptar btn-success ms-1"> <i class="fas fa-check"></i></button>  <button type="button" class="btn btn-rechazar btn-danger ms-1"> <i class="fas fa-ban"></i> </button></div>',
+                    "orderable": false,
+                    "searchable": false,
+                    "widht": "90px"
+                },
+                { "data": "idSolicitud" },
+                { "data": "idCliente" },
+                { "data": "idEmpleado" },
+                { "data": "TipoMoneda" },
+                { "data": "Estado" },
+                { "data": "Situacion" },
+                { "data": "Monto" },
+                { "data": "CantidadCuotas" },
+                { "data": "FechaSolicitud" },
+                { "data": "FechaDesembolso" },
+                { "data": "Seq" },
+                { "data": "IngresosMensuales" },
+                { "data": "GastosMensuales" },
+                { "data": "EstadoCivil" },
+                { "data": "Educacion" },
+                { "data": "PersonasDependientes" },
+                { "data": "Empleador" },
+                { "data": "PuestoTrabajo" },
+                { "data": "Antiguedad" },
+            ],
+            "language": {
+                "url": 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+            }
+        });
+
+
+        //******************************************* */
+
+        $("#tablaPendientes").on("click", '.btn-aceptar', function () {
+            //debugger;
+            filaSeleccionada = $(this).closest("tr");
+            var data = tabladataPendientes.row(filaSeleccionada).data();
+
+            console.log("variable data : ");
+            console.log(data);
+
+            //Asignando tasa de interes 5% por ahora y pgracia de 1 mes. 
+
+            console.log("variable credito");
+            var Credito = {
+                IDempleado: @oEmpleado.IDempleado,
+                IdSolicitud: data.idSolicitud,
+                TipoMoneda: data.TipoMoneda,
+                FechaAprobacion: new Date(),
+                FechaDesembolso: new Date(),
+                TasaInteres: $("#Interes").val(),
+                pGracia_Meses: $("#Gracia").val()
+            }
+            console.log(Credito);
+
+            let valorInteres = $('#Interes').val();
+            let valorGracia = $('#Gracia').val();
+
+            // Verificar si los campos tienen valores específicos
+            if (valorInteres === '' || valorGracia === '') {
+                swal("Error!", "Debe indicar interés y periodo de gracia para la solicitud.", "warning");
+            }
+            else {
+
+           
+            jQuery.ajax({
+
+                url: '@Url.Action("CrearCredito", "Home")',
+                type: "POST",
+                data: JSON.stringify({ obj: Credito }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    //tabladata.row.add(Credito).draw(false); //Pintar tabla
+                    tabladataPendientes.row(filaSeleccionada).remove().draw();
+
+                    tabladata.row.add(data.resultado).draw(false); //Pintar tabla
+                    //debugger;
+                    //alert(data.mensaje);
+                    //$("#FormModal").modal("hide");
+
+                },
+                error: function (error) {
+                    console.log("Fatal error");
+                },
+
+            });
+
+            }
+
+        });
+
+
+
+        $("#tablaPendientes").on("click", '.btn-rechazar', function () {
+            //debugger;
+            filaSeleccionada = $(this).closest("tr");
+            var data = tabladataPendientes.row(filaSeleccionada).data();
+
+            //console.log("variable data : ");
+            //console.log(data);
+
+            //console.log("variable credito");
+            var Credito = {
+                IDempleado: @oEmpleado.IDempleado,
+                IdSolicitud: data.idSolicitud,
+                TipoMoneda: data.TipoMoneda,
+                FechaAprobacion: new Date(),
+                FechaDesembolso: new Date(),
+                TasaInteres: 0,
+                pGracia_Meses: 0
+            }
+            //console.log(Credito);
+
+
+            jQuery.ajax({
+
+                url: '@Url.Action("RechazarSolicitud", "Home")',
+                type: "POST",
+                data: JSON.stringify({ obj: Credito }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    //tabladata.row.add(Credito).draw(false); //Pintar tabla
+                    tabladataPendientes.row(filaSeleccionada).remove().draw();
+
+                    tabladata.row.add(data.resultado).draw(false); //Pintar tabla
+                    //debugger;
+                    //alert(data.mensaje);
+                    //$("#FormModal").modal("hide");
+
+                },
+                error: function (error) {
+                    console.log("Fatal error");
+                },
+
+            });
+
+      });
+
+
+
+        function abrirModal(json) {
+
+           /* $("#txtnombres").val("");
+            $("#txtapellidos").val("");
+            $("#txtDNI").val("");
+            $("#txtcorreo").val("");
+
+            if (json != null) { //Mostrar Id pero que no se pueda editar
+                $("#txtnombres").val(json.Nombre);
+                $("#txtapellidos").val(json.Apellido);
+                $("#txtDNI").val(json.dni);
+                $("#txtcorreo").val(json.Correo);
+                $("#txtId").val(json.idCliente);
+
+                CrearModal = false;
+            } else {
+                CrearModal = true;
+            }
+
+            var miDiv = document.getElementById('miDiv');
+            var txtId = miDiv.querySelector('#txtId');
+
+            if (CrearModal) { //Opcion crear
+                //txtId.readOnly = false;
+                txtId.disabled = false;
+            } else { //Opcion editar
+                //txtId.readOnly = true;
+                txtId.disabled = true;
+            }*/
+
+            $("#FormModal").modal("show");
+
+
+        }
+
+
+
+
+        $("#tabla").on("click", '.btn-info', function () {
+            //debugger;
+            //filaSeleccionada = $(this).closest("tr");
+            //var data = tabladata.row(filaSeleccionada).data();
+            //console.log(data);
+            abrirModal();
+        })
+
+
+        function validarNumeros(input) {
+            input.value = input.value.replace(/[^\d]/g, ''); // Remueve todo lo que no sea un número
+        }
+
+
+    </script>
+
+}

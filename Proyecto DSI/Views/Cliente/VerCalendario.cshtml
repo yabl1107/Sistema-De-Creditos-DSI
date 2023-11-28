@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "VerCalendario";
+    //ViewBag.Dato = 30;
+
+}
+
+<!-- HTML en tu vista -->
+
+
+
+
+
+
+<p hidden>El valor de dato es: @ViewBag.Dato</p>
+
+<ol class="breadcrumb mb-4 pt-4">
+    <li class="breadcrumb-item"><a href="@Url.Action("Creditos", "Gestion")">Creditos</a></li>
+    <li class="breadcrumb-item active">Ver Pagos</li>
+</ol>
+
+
+<div class="bg-secondary text-white rounded-4 py-2 mb-4">
+    <h6 class="fw-bold text-center my-2" style="font-family: sans-serif;">Calendario de Cuotas - Credito ID: @ViewBag.Dato</h6>
+</div>
+
+
+<div class="card">
+
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i>Cuotas
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+        </div>
+        <hr />
+
+        <table id="tabla" class="display cell-border">
+            <thead>
+                <tr>
+                    <!--<th>ID Calendario</th>-->
+                    <!--<th>Registro ID</th>-->
+                    <th>Nro. Cuota</th>
+                    <th>Fecha</th>
+                    <th>Interes</th>
+                    <th>Capital</th>
+                    <th>Monto Cuota</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
+    <!--Los scripts que escribamos los va a tomar la masterpage como si fuera suyo-->
+                    @section scripts{
+
+                        <script>
+                            var tabladata;
+                            var CrearModal = true; // Saber si se abre crear o editar usuario
+                            var filaSeleccionada;
+                            var dato = "/Home/ListarCalendario";
+                            console.log(dato);
+
+                            tabladata = $("#tabla").DataTable({
+                                responsive: true,
+                                ordering: false,
+                                searching: false,
+                                "ajax": {
+                                    url: "/Home/ListarCalendario",
+                                    type: "GET",
+                                    dataType: "json",
+                                    data: {
+                                        regId: '30' // Asigna el valor del parámetro regId
+                                    }
+                                },
+
+                                "columns": [
+                                    //{ "data": "idCalendario" },
+                                    //{ "data": "Registroid" },
+                                    { "data": "NroCuota" },
+                                    { "data": "Fecha" },
+                                    { "data": "Interes" },
+                                    { "data": "Capital" },
+                                    { "data": "MontoCuota" }
+
+                                ],
+                                "language": {
+                                    "url": 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+                                }
+                            });
+
+
+
+
+
+                        </script>
+
+                    }
+

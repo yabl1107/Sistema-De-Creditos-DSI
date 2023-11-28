@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Trabajadores";
+}
+
+<ol class="breadcrumb mb-4 pt-4">
+    <li class="breadcrumb-item"><a href="">Creditos</a></li>
+    <li class="breadcrumb-item active">Ver creditos</li>
+</ol>
+
+<div class="p-3 text-white rounded-4" style="background-color: rgb(64,139,253);">
+    <h1 class="fw-bold text-center my-2" style="font-family: sans-serif;">Mis Créditos</h1>
+</div>
+<br /><br />
+<div class="card">
+
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i>Lista de Creditos
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+        </div>
+        <hr />
+
+        <table id="tabla" class="display cell-border" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>idEmpleado</th>
+                    <th>idCredito</th>
+                    <th>idSolicitud</th>
+                    <th>TipoMoneda</th>
+                    <th>FechaAprobacion</th>
+                    <th>FechaDesembolso</th>
+                    <th>TasaInteres</th>
+                    <th>pGracia_Meses</th>
+                    <th>Ver</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="exampleModalLongTitle">Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body g-2">
+
+                <div class="row">
+
+                    <div id="miDiv" class="col-sm-6 alig">
+                        <label for="txtId" class="form-label">Id Usuario</label>
+                        <input type="text" class="form-control" id="txtId" value="0">
+                    </div>
+                    <div class="col-sm-6"></div>
+
+
+                    <div class="col-sm-6">
+                        <label for="txtnombres" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="txtnombres">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="txtDNI" class="form-label">DNI</label>
+                        <input type="text" class="form-control" id="txtDNI">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="txtapellidos" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="txtapellidos">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="txtcorreo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="txtcorreo" placeholder="MiCorreo@gmail.com">
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="exampleFormControlInput1" class="form-label">Sexo</label>
+                        <select id="sexo" class="form-select" aria-label="Default select example">
+                            <option value="1">Hombre</option>
+                            <option value="2">Mujer</option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Los scripts que escribamos los va a tomar la masterpage como si fuera suyo-->
+@section scripts{
+
+    <script>
+        var tabladata;
+        var CrearModal = true; // Saber si se abre crear o editar usuario
+        var filaSeleccionada;
+
+        tabladata = $("#tabla").DataTable({
+            responsive: true,
+            ordering: false,
+            lengthChange: false,
+            "ajax": {
+                url: '@Url.Action("ListarCreditosDeClienteEnSesion", "Cliente")',
+                type: "GET",
+                dataType: "json",
+            },
+
+            "columns": [
+                {
+                    "defaultContent": '<div class="d-flex justify-content-center"><button type="button" class="btn btn-info"> <i class="fas fa-eye"></i> </button> </div>',
+                    "orderable": false,
+                    "searchable": false,
+                    "widht": "90px"
+                },
+                { "data": "IdEmpleado" },
+                { "data": "IdCredito" },
+                { "data": "IdSolicitud" },
+                { "data": "TipoMoneda" },
+                { "data": "FechaAprobacion" },
+                { "data": "FechaDesembolso" },
+                { "data": "TasaInteres" },
+                { "data": "pGracia_Meses" }
+
+            ],
+            "language": {
+                "url": 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+            }
+        });
+
+
+        $("#tabla tbody").on("click", '.btn-info', function () {
+            filaSeleccionada = $(this).closest("tr");
+            var data = tabladata.row(filaSeleccionada).data();
+            //alert("se presiono el boton");
+            //window.location.href = 'https://www.ejemplo.com';
+            var dato = data.IdCredito;
+            window.location.href = '/Cliente/VerCalendario?dato=' + dato;
+            //console.log(data);
+            //abrirModal(data)
+        })
+
+    </script>
+
+}

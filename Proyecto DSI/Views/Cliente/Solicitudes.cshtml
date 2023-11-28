@@ -1,0 +1,164 @@
+﻿
+@using CapaEntidad
+@{
+    Cliente oCliente = (Cliente)Session["Cliente"];
+}
+
+<ol class="breadcrumb mb-4 pt-4">
+    <li class="breadcrumb-item"><a href="">Solicitudes</a></li>
+    <li class="breadcrumb-item active">Ver Solicitudes</li>
+</ol>
+
+
+<div class=" p-3 text-white rounded-4" style="background-color: rgb(64,139,253);">
+    <h1 class="fw-bold text-center my-2" style="font-family: sans-serif;">Mis Solicitudes</h1>
+</div>
+<br />
+<br />
+
+<!--  *****************************************************  -->
+<div id="cardSolicitudesAtendidas" class="card">
+
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i>Lista de Solicitudes
+    </div>
+
+    <div class="card-body">
+
+        <hr />
+        <table id="tabla" class="display cell-border" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>IdSolicitud</th>
+                    <th>idCliente</th>
+                    <th>idEmpleado</th>
+                    <th>TipoMoneda</th>
+                    <th>Estado</th>
+                    <th>Situacion</th>
+                    <th>Monto</th>
+                    <th>CantidadCuotas</th>
+                    <th>FechaSolicitud</th>
+                    <th>Seq</th>
+                    <th>IngresosMensuales</th>
+                    <th>GastosMensuales</th>
+                    <th>EstadoCivil</th>
+                    <th>Educacion</th>
+                    <th>#PersonasDep</th>
+                    <th>Empleador</th>
+                    <th>PuestoTrabajo</th>
+                    <th>Antiguedad(meses)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<!--Los scripts que escribamos los va a tomar la masterpage como si fuera suyo-->
+@section scripts{
+
+    <script>
+        var tabladata;
+        var CrearModal = true; // Saber si se abre crear o editar usuario
+        var filaSeleccionada;
+
+        var GetSolicitudesAtendidas = '';
+
+
+
+        tabladata = $("#tabla").DataTable({
+            responsive: true,
+            ordering : false,
+            "ajax": {
+                url: '@Url.Action("ListarSolicitudesDeClienteEnSesion", "Cliente")',
+                type: "GET",
+                dataType: "json",
+            },
+
+            "columns": [
+                { "data": "idSolicitud" },
+                { "data": "idCliente" },
+                { "data": "idEmpleado" },
+                { "data": "TipoMoneda" },
+                { "data": "Estado" },
+                { "data": "Situacion" },
+                { "data": "Monto" },
+                { "data": "CantidadCuotas" },
+                { "data": "FechaSolicitud" },
+                { "data": "Seq" },
+                { "data": "IngresosMensuales" },
+                { "data": "GastosMensuales" },
+                { "data": "EstadoCivil" },
+                { "data": "Educacion" },
+                { "data": "PersonasDependientes" },
+                { "data": "Empleador" },
+                { "data": "PuestoTrabajo" },
+                { "data": "Antiguedad" },
+            ],
+            "language": {
+                "url": 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+            }
+        });
+
+
+
+
+        //******************************************* */
+
+
+
+        function abrirModal(json) {
+
+           /* $("#txtnombres").val("");
+            $("#txtapellidos").val("");
+            $("#txtDNI").val("");
+            $("#txtcorreo").val("");
+
+            if (json != null) { //Mostrar Id pero que no se pueda editar
+                $("#txtnombres").val(json.Nombre);
+                $("#txtapellidos").val(json.Apellido);
+                $("#txtDNI").val(json.dni);
+                $("#txtcorreo").val(json.Correo);
+                $("#txtId").val(json.idCliente);
+
+                CrearModal = false;
+            } else {
+                CrearModal = true;
+            }
+
+            var miDiv = document.getElementById('miDiv');
+            var txtId = miDiv.querySelector('#txtId');
+
+            if (CrearModal) { //Opcion crear
+                //txtId.readOnly = false;
+                txtId.disabled = false;
+            } else { //Opcion editar
+                //txtId.readOnly = true;
+                txtId.disabled = true;
+            }*/
+
+            $("#FormModal").modal("show");
+
+
+        }
+
+
+
+
+        $("#tabla").on("click", '.btn-info', function () {
+            //debugger;
+            //filaSeleccionada = $(this).closest("tr");
+            //var data = tabladata.row(filaSeleccionada).data();
+            //console.log(data);
+            abrirModal();
+        })
+
+
+
+
+    </script>
+
+}

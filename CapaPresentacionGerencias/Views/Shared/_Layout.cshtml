@@ -1,0 +1,135 @@
+﻿
+@using CapaEntidad
+@{
+    Empleado oEmpleado = (Empleado)Session["Empleado"];
+    //ViewBag.ColorMenu = "background-color:rgb(33,37,41);";
+    ViewBag.ColorMenu = "background-color:rgb(15,71,151);";
+    ViewBag.TextBarColor = "color:rgb(255,255,255);";
+    ViewBag.ColorPagina = "background-color:rgb(255,255,255);";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark" style=@ViewBag.ColorMenu>
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="" style=@ViewBag.TextBarColor>Credit Company</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!" style=@ViewBag.TextBarColor><i class="fas fa-bars"></i></button>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style=@ViewBag.TextBarColor><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="@Url.Action("VerPerfil", "Home")">Mi perfil</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("EditarPerfil", "Home")">Actualizar Perfil</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="@Url.Action("CerrarSesion", "Acceso")">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav" style=@ViewBag.ColorMenu>
+            <nav class="sb-sidenav accordion sb-sidenav" id="sidenavAccordion">
+                <div class="sb-sidenav-menu" >
+                    <div class="nav">
+                        <!-- USUARIO-->
+                        <div class="sb-sidenav-menu-heading" style=@ViewBag.TextBarColor>Usuario</div>
+                        <a class="nav-link" href="@Url.Action("Index", "Home")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Mi Perfil
+                        </a>
+                        <!-- CREDITOS-->
+                        <div class="sb-sidenav-menu-heading" style=@ViewBag.TextBarColor>CREDITOS</div>
+                        <a class="nav-link" href="@Url.Action("Solicitudes", "Gestion")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Ver Solicitudes
+                        </a>
+                        <a class="nav-link" href="@Url.Action("Creditos", "Gestion")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Ver Créditos
+                        </a>
+                        <!-- CLIENTES-->
+                        <div class="sb-sidenav-menu-heading" style=@ViewBag.TextBarColor>ADMINISTRAR</div>
+                        <a class="nav-link" href="@Url.Action("Clientes", "Gestion")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Clientes
+                        </a>
+                        <a class="nav-link ModuloTrabajadores" href="@Url.Action("Trabajadores", "Gestion")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Trabajadores
+                        </a>
+
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer" style=@ViewBag.TextBarColor>
+                    <div class="small">Logged in as:</div>
+                    Gerencia
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content" style=@ViewBag.ColorPagina>
+            <main  >
+                <div class="container-fluid px-4">
+                    @RenderBody()
+                </div>
+            </main>
+            <footer class="py-4  mt-auto" >
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted"> &copy; Sistema de Créditos 2023</div>
+                        <!--
+                                     <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+
+                            -->
+
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        var anchoContenedor;
+        $("#sidebarToggle").on("click", function () {
+            //debugger;
+            anchoContenedor = $('#sidebarToggle').width();
+        })
+
+
+        if (@oEmpleado.Gerencia== 1) {
+            //alert("Es gerente");
+            $('.ModuloTrabajadores').show();
+            //GetSolicitudesAtendidas = '/hOME/ListarSolicitudesAtendidas';
+        } else {
+            //alert("No es gerente");
+            $('.ModuloTrabajadores').hide();
+        };
+
+
+    </script>
+
+</body>
+</html>

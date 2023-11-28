@@ -1,0 +1,105 @@
+﻿
+@{
+    //ViewBag.ColorMenu = "background-color:rgb(33,37,41);";
+    ViewBag.ColorMenu = "background-color:rgb(15,71,151);";
+    ViewBag.ColorPagina = "background-color:rgb(255,255,255);";
+    ViewBag.TextBarColor = "color:rgb(255,255,255);";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+
+<body class="sb-nav-fixed" >
+    <nav class="sb-topnav navbar navbar-expand"  style=@ViewBag.ColorMenu>
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="" style=@ViewBag.TextBarColor>Credit Company</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!" style=@ViewBag.TextBarColor><i class="fas fa-bars"></i></button>
+
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" style=@ViewBag.TextBarColor id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i style=@ViewBag.TextBarColor class="fas fa-user fa-fw" ></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="@Url.Action("VerPerfil", "Cliente")">Mi Perfil</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("EditarPerfil", "Cliente")">Actualizar Perfil</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="@Url.Action("CerrarSesion", "Acceso")">Cerrar Sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="layoutSidenav"  >
+        <div id="layoutSidenav_nav"  style=@ViewBag.ColorMenu>
+            <nav class="sb-sidenav accordion" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav" >
+                        <!-- SOLICITUDES-->
+                        <div class="sb-sidenav-menu-heading" style=@ViewBag.TextBarColor>SOLICITUDES</div>
+                        <a class="nav-link" href="@Url.Action("Solicitudes", "Cliente")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area" ></i></div>
+                            Mis solicitudes
+                        </a>
+                        <a class="nav-link" href="@Url.Action("NuevaSolicitud", "Cliente")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Nueva Solicitud
+                        </a>
+
+                        <!-- CREDITOS-->
+                        <div class="sb-sidenav-menu-heading" style=@ViewBag.TextBarColor>Creditos</div>
+                        <a class="nav-link" href="@Url.Action("Creditos", "Cliente")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Mis créditos
+                        </a>
+
+
+                        <!--INFORMACIÓN-->
+                        <div class="sb-sidenav-menu-heading" style=@ViewBag.TextBarColor>Informacion</div>
+                        <a class="nav-link" href="@Url.Action("Contact", "Home")" style=@ViewBag.TextBarColor>
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Contacto
+                        </a>
+
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer" style=@ViewBag.TextBarColor>
+                    <div class="small" >Logged in as:</div>
+                    CLIENTE
+                </div>
+            </nav>
+        </div>
+
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4" >
+                    @RenderBody()
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted"> &copy; Sistema de Créditos 2023</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,274 @@
+﻿
+
+
+@using CapaEntidad
+
+@{
+    Cliente oCliente = (Cliente)Session["Cliente"];
+    string fechaActual = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+<style>
+    body {
+        background: #f7f7ff;
+        margin-top: 20px;
+    }
+
+    .main-body {
+        padding: 15px;
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: .25rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    }
+
+    .me-2 {
+        margin-right: .5rem !important;
+    }
+</style>
+
+<div class="container">
+    <div class="main-body">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="main-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Solicitudes</li>
+                <li class="breadcrumb-item active" aria-current="page">Nueva Solicitud</li>
+            </ol>
+        </nav>
+        <!-- /Breadcrumb -->
+
+        <br />
+
+
+        @if (ViewData["Mensaje"] != null)
+        {
+            <div class="alert alert-danger my-5" role="alert">
+                @ViewData["Mensaje"]
+            </div>
+        }
+
+        <div class="row">
+
+            <div class="row gutters-sm">
+
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="https://aap.org.pe/wp-content/uploads/2020/03/creditos-vehiculares-foto-nota.png" alt="Admin" class="rounded-circle" width="150">
+                            </div>
+                            <hr class="my-4">
+                            <div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                        <h6 class="mb-0">Id Cliente</h6>
+                                        <span class="text-secondary">@oCliente.idCliente</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-lg-9">
+
+                    <div class="card" id="DatosContent">
+                        <div class="card-body">
+
+                            <!-- ********** FORMULARIO **************** -->
+                            <form action="@Url.Action("RealizarSolicitud","Cliente")" method="post">
+                                <input type="text" name="idCliente" value="@oCliente.idCliente" hidden />
+                                <input type="date" name="FechaSolicitud" class="form-control" value="@fechaActual" id="txtApellidos" hidden>
+
+                                <div class=" text-white rounded-4 py-1 mb-4" style="background-color: rgb(64,139,253);">
+                                    <h6 class="fw-bold text-center my-2" style="font-family: sans-serif;">Sobre Crédito</h6>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Fecha Solicitud</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="date" name="FechaSolicitud" class="form-control" value="@fechaActual" id="txtApellidos" disabled>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Tipo Moneda</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <select name="TipoMoneda" id="txtMoneda" class="form-select" aria-label="Default select example" required>
+                                            <option value="Soles">Soles</option>
+                                            <option value="Dólar">Dólar</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Monto</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="Monto" class="form-control" id="txtMonto" oninput="validarNumeros(this)" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Nro. Cuotas</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="CantidadCuotas" class="form-control" id="txtNroCuotas" required>
+                                    </div>
+                                </div>
+
+                                <!--Informacion actual del solicitante-->
+                                <div class=" text-white rounded-4 py-1 mb-4" style="background-color: rgb(64,139,253);">
+                                    <h6 class="fw-bold text-center my-2" style="font-family: sans-serif;">Evaluacion Solicitante</h6>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Ingresos mensuales</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="IngresosMensuales" class="form-control" id="txtIngresosMensuales" oninput="validarNumeros(this)" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Gastos mensuales</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="GastosMensuales" class="form-control" id="txtGastosMensuales" oninput="validarNumeros(this)" required>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Estado civil</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <select name="EstadoCivil" id="EstadoCivil" class="form-select" aria-label="Default select example">
+                                            <option value="Soltero">Soltero</option>
+                                            <option value="Casado">Casado</option>
+                                            <option value="Viudo">Viudo</option>
+                                            <option value="Divorciado">Divorciado</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Educacion</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <select name="Educacion" id="Educacion" class="form-select" aria-label="Default select example">
+                                            <option value="NoEducacion">Sin Educacion</option>
+                                            <option value="Primaria">Primaria</option>
+                                            <option value="Secundaria">Secundaria</option>
+                                            <option value="Tecnico">Tecnico</option>
+                                            <option value="Universitario">Universitario</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Personas Depend.</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input name="PersonasDependientes" type="text" class="form-control" id="txtPersonasDep" oninput="validarNumeros(this)" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Empleador</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input name="Empleador" type="text" class="form-control" id="txtEmpleador" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Puesto Trabajo</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input name="PuestoTrabajo" type="text" class="form-control" id="txtPuestoTrabajo" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Antiguedad meses</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input name="Antiguedad" type="text" class="form-control" id="txtAntiguedad" oninput="validarNumeros(this)" required>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="submit" class="btn btn-primary px-4" value="Solicitar" id="GuardarButton">
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        @section scripts{
+
+            <script>
+                var tabladata;
+                var CrearModal = true; // Saber si se abre crear o editar usuario
+                var filaSeleccionada;
+
+
+
+
+                function validarNumeros(input) {
+                    input.value = input.value.replace(/[^\d]/g, ''); // Remueve todo lo que no sea un número
+                }
+
+
+
+            </script>
+        }
+
+
+
